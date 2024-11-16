@@ -101,7 +101,7 @@ public class MainGui {
         txtNameFriend.setBounds(100, 419, 384, 28);
         frameMainGui.getContentPane().add(txtNameFriend);
 
-        btnChat = new JButton("Chat");
+        btnChat = new JButton("Private Chat");
         btnChat.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
         btnChat.addActionListener(new ActionListener() {
@@ -130,7 +130,31 @@ public class MainGui {
                 Tags.show(frameMainGui, "Friend is not found. Please wait to update your list friend", false);
             }
         });
-        btnChat.setBounds(20, 465, 129, 44);
+        btnChat.setBounds(20, 465, 160, 44);
+        frameMainGui.getContentPane().add(btnChat);
+        btnChat.setIcon(new javax.swing.ImageIcon(MainGui.class.getResource("/image/chat.png")));
+        
+        
+        btnChat = new JButton("Group Chat");
+        btnChat.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+
+        btnChat.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+            	try 
+				{
+            		int size = Client.clientarray.size();
+                    
+            		
+					GroupChatCreator window = new GroupChatCreator();
+					window.ShowSelectGroupMember();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+            }
+        });
+        btnChat.setBounds(185, 465, 150, 44);
         frameMainGui.getContentPane().add(btnChat);
         btnChat.setIcon(new javax.swing.ImageIcon(MainGui.class.getResource("/image/chat.png")));
 
@@ -156,7 +180,7 @@ public class MainGui {
 
 		
 
-        lblLogo = new JLabel("CONNECT WITH EVERYONE IN THE WORLD");
+        lblLogo = new JLabel("JAVA SOCKET CHAT");
         lblLogo.setForeground(new Color(0, 0, 205));
         lblLogo.setIcon(new javax.swing.ImageIcon(MainGui.class.getResource("/image/connect.png")));
         lblLogo.setFont(new Font("Tahoma", Font.PLAIN, 18));

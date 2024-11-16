@@ -50,7 +50,7 @@ public class ChatGui {
 	private ChatRoom chat;
 	private Socket socketChat;
 	private String nameUser = "", nameGuest = "", nameFile = "";
-	private JFrame frameChatGui;
+	private JFrame frame;
 	private JTextField textName;
 	private JPanel panelMessage;
 	private JTextPane txtDisplayChat;
@@ -78,7 +78,7 @@ public class ChatGui {
 			public void run() {
 				try {
 					ChatGui window = new ChatGui(nameUser, nameGuest, socketChat, portServer, 0);
-					window.frameChatGui.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -91,7 +91,7 @@ public class ChatGui {
 			public void run() {
 				try {
 					ChatGui window = new ChatGui();
-					window.frameChatGui.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -151,32 +151,32 @@ public class ChatGui {
 		if (!fileTemp.exists()) {
 			fileTemp.mkdirs();
 		}
-		frameChatGui = new JFrame();
-		frameChatGui.setTitle("Private Chat");
-		frameChatGui.setResizable(false);
-		frameChatGui.setBounds(200, 200, 673, 645);
-		frameChatGui.getContentPane().setLayout(null);
-		frameChatGui.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame = new JFrame();
+		frame.setTitle("Private Chat");
+		frame.setResizable(false);
+		frame.setBounds(200, 200, 673, 645);
+		frame.getContentPane().setLayout(null);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		JLabel lblClientIP = new JLabel("");
 		lblClientIP.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		lblClientIP.setBounds(30, 6, 41, 40);
 		lblClientIP.setIcon(new javax.swing.ImageIcon(ChatGui.class.getResource("/image/user_chat.png")));
-		frameChatGui.getContentPane().add(lblClientIP);
+		frame.getContentPane().add(lblClientIP);
 
 		textName = new JTextField(nameUser);
 		textName.setForeground(Color.RED);
 		textName.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		textName.setEditable(false);
 		textName.setBounds(70, 6, 148, 40);
-		frameChatGui.getContentPane().add(textName);
+		frame.getContentPane().add(textName);
 		textName.setText(nameGuest);
 		textName.setColumns(10);
 
 		panelMessage = new JPanel();
 		panelMessage.setBounds(6, 363, 649, 201);
 		panelMessage.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Message"));
-		frameChatGui.getContentPane().add(panelMessage);
+		frame.getContentPane().add(panelMessage);
 		panelMessage.setLayout(null);
 
 		txtMessage = new JTextField("");
@@ -203,7 +203,7 @@ public class ChatGui {
 				fileChooser.setCurrentDirectory(new File(System
 						.getProperty("user.home")));
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int result = fileChooser.showOpenDialog(frameChatGui);
+				int result = fileChooser.showOpenDialog(frame);
 				if (result == JFileChooser.APPROVE_OPTION) {
 					isSendFile = true;
 					String path_send = (fileChooser.getSelectedFile()
@@ -463,12 +463,12 @@ public class ChatGui {
 		btnDisConnect.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		btnDisConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int result = Tags.show(frameChatGui, "Are you sure to close chat with account: "
+				int result = Tags.show(frame, "Are you sure to close chat with account: "
 						+ nameGuest, true);
 				if (result == 0) {
 					try {
 						isStop = true;
-						frameChatGui.dispose();
+						frame.dispose();
 						chat.sendMessage(Tags.CHAT_CLOSE_TAG);
 						chat.stopChat();
 						System.gc();
@@ -480,23 +480,23 @@ public class ChatGui {
 		});
 		
 		btnDisConnect.setBounds(540, 6, 113, 40);
-		frameChatGui.getContentPane().add(btnDisConnect);
+		frame.getContentPane().add(btnDisConnect);
 
 		progressSendFile = new JProgressBar(0, 100);
 		progressSendFile.setBounds(170, 577, 388, 14);
 		progressSendFile.setStringPainted(true);
-		frameChatGui.getContentPane().add(progressSendFile);
+		frame.getContentPane().add(progressSendFile);
 		progressSendFile.setVisible(false);
 
 		textState = new Label("");
 		textState.setBounds(6, 570, 158, 22);
 		textState.setVisible(false);
-		frameChatGui.getContentPane().add(textState);
+		frame.getContentPane().add(textState);
 
 		lblReceive = new Label("Receiving ...");
 		lblReceive.setBounds(564, 577, 83, 14);
 		lblReceive.setVisible(false);
-		frameChatGui.getContentPane().add(lblReceive);
+		frame.getContentPane().add(lblReceive);
 		
 		txtDisplayChat = new JTextPane();
 		txtDisplayChat.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -507,16 +507,11 @@ public class ChatGui {
 		txtDisplayChat.setBounds(6, 59, 670, 291);
 		appendToPane(txtDisplayChat, "<div class='clear' style='background-color:white'></div>"); //set default background
 			    
-		frameChatGui.getContentPane().add(txtDisplayChat);
+		frame.getContentPane().add(txtDisplayChat);
 	
 		scrollPane = new JScrollPane(txtDisplayChat);
 		scrollPane.setBounds(6, 59, 649, 291);
-		frameChatGui.getContentPane().add(scrollPane);
-		
-
-		
-	
-		
+		frame.getContentPane().add(scrollPane);		
 	}
 
 	public class ChatRoom extends Thread {
@@ -550,11 +545,11 @@ public class ChatGui {
 						String msgObj = obj.toString();
 						if (msgObj.equals(Tags.CHAT_CLOSE_TAG)) {
 							isStop = true;
-							Tags.show(frameChatGui, nameGuest 
+							Tags.show(frame, nameGuest 
 									+ " closed chat with you! This windows will also be closed.", false);
 							try {	
 								isStop = true;
-								frameChatGui.dispose();
+								frame.dispose();
 								chat.sendMessage(Tags.CHAT_CLOSE_TAG);
 								chat.stopChat();
 								System.gc();
@@ -568,7 +563,7 @@ public class ChatGui {
 							isReceiveFile = true;
 							nameFileReceive = msgObj.substring(10,
 									msgObj.length() - 11);
-							int result = Tags.show(frameChatGui, nameGuest
+							int result = Tags.show(frame, nameGuest
 									+ " send file " + nameFileReceive
 									+ " for you", true);
 							if (result == 0) {
@@ -600,7 +595,7 @@ public class ChatGui {
 								}
 							}).start();
 						} else if (msgObj.equals(Tags.FILE_REQ_NOACK_TAG)) {
-							Tags.show(frameChatGui, nameGuest
+							Tags.show(frame, nameGuest
 									+ " don't want receive file", false);
 						} else if (msgObj.equals(Tags.FILE_DATA_BEGIN_TAG)) {
 							finishReceive = false;
@@ -725,7 +720,7 @@ public class ChatGui {
 				fileChooser.setCurrentDirectory(new File(System
 						.getProperty("user.home")));
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				int result = fileChooser.showSaveDialog(frameChatGui);
+				int result = fileChooser.showSaveDialog(frame);
 				if (result == JFileChooser.APPROVE_OPTION) {
 					File file = new File(fileChooser.getSelectedFile()
 							.getAbsolutePath() + "/" + nameFileReceive );
@@ -740,12 +735,12 @@ public class ChatGui {
 							copyFileReceive(input, output, URL_DIR + TEMP
 									+ nameFileReceive);
 						} catch (Exception e) {
-							Tags.show(frameChatGui, "Your file receive has error!!!",
+							Tags.show(frame, "Your file receive has error!!!",
 									false);
 						}
 						break;
 					} else {
-						int resultContinue = Tags.show(frameChatGui,
+						int resultContinue = Tags.show(frame,
 								"File is exists. You want save file?", true);
 						if (resultContinue == 0)
 							continue;

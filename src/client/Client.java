@@ -1,13 +1,16 @@
 package client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.ArrayList;
+import java.util.List;
 
 import data.Peer;
 import tags.Decode;
@@ -119,12 +122,45 @@ public class Client {
 	public void updateFriend(){
 		int size = clientarray.size();
 		MainGui.resetList();
+		GroupChatCreator.ResetList();
 		//while loop
 		int i = 0;
 		while (i < size) {
 			if (!clientarray.get(i).getName().equals(nameUser))
+			{
 				MainGui.updateFriendMainGui(clientarray.get(i).getName());
+				GroupChatCreator.UpdateOnlineUsers(clientarray.get(i).getName());
+			}
+			
 			i++;
 		}
+	}
+	
+	private Socket socket; 
+	private PrintWriter out; 
+	private BufferedReader in; 
+	public void createGroupChat(List<String> userNames) { 
+		// Logic gửi yêu cầu tạo group chat tới server 
+	} 
+		
+	public void sendMessageToGroup(String groupId, String message) { 
+		out.println("GROUP " + groupId + " " + message); 
+	} 
+		
+	// Method để nhận tin nhắn từ server 	
+	public void listenForMessages() { 
+		new Thread(new Runnable() { 
+			public void run() { 
+				String message; 
+				try { 
+					while ((message = in.readLine()) != null) { 
+					// Logic xử lý tin nhắn từ server 
+					} 
+				} 
+				catch (IOException e) { 
+					e.printStackTrace(); 
+				} 
+			} 	
+		}).start(); 
 	}
 }

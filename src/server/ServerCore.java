@@ -5,7 +5,12 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
+import client.Client;
 import data.Peer;
 import tags.Decode;
 import tags.Tags;
@@ -134,6 +139,39 @@ public class ServerCore {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private Map<String, List<Client>> groupChats = new HashMap<>(); 
+	
+	// Method để xử lý yêu cầu tạo group chat 
+	public void handleCreateGroupChat(List<String> userNames) { 
+		String groupId = UUID.randomUUID().toString(); 
+		List<Client> groupMembers = new ArrayList<>(); 
+		for (String userName : userNames) { 
+			Client handler = findClientHandlerByName(userName); 
+			if (handler != null) { 
+				groupMembers.add(handler); 
+			} 
+		} 
+		groupChats.put(groupId, groupMembers); 
+	} 
+	
+	
+	// Tìm client handler theo tên người dùng 
+	private Client findClientHandlerByName(String userName) { 
+		// Logic để tìm ClientHandler tương ứng với userName 
+		return null;
+	} 
+	
+	
+	// Method để gửi tin nhắn đến tất cả thành viên trong nhóm
+	public void sendMessageToGroup(String groupId, String message) { 
+		List<Client> groupMembers = groupChats.get(groupId); 
+		if (groupMembers != null) { 
+			for (Client member : groupMembers) { 
+				// member.sendMessage(message); 
+			}
+		} 
 	}
 }
 
