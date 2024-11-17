@@ -1,8 +1,10 @@
 package client;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -14,7 +16,7 @@ import tags.Decode;
 import tags.Encode;
 import tags.Tags;
 
-public class Client implements Cloneable {
+public class Client {
 
 	public static ArrayList<Peer> clientarray = null;
 	private ClientServer server;
@@ -24,6 +26,7 @@ public class Client implements Cloneable {
 	private boolean isStop = false;
 	private static int portClient = 10000; 
 	private int timeOut = 10000;  //time to each request is 10 seconds.
+	
 	private Socket socketClient;
 	private ObjectInputStream serverInputStream;
 	private ObjectOutputStream serverOutputStream;
@@ -33,6 +36,7 @@ public class Client implements Cloneable {
 		nameUser = name;
 		portClient = arg1;
 		clientarray = Decode.getAllUser(dataUser);
+		
 		new Thread(new Runnable(){
 			@Override
 			public void run() {
@@ -42,12 +46,6 @@ public class Client implements Cloneable {
 		server = new ClientServer(nameUser);
 		(new Request()).start();
 	}
-	
-	@Override
-	protected Object clone() throws CloneNotSupportedException
-	{
-		return super.clone();
-	}
 
 	public static int getPort() {
 		return portClient;
@@ -55,8 +53,9 @@ public class Client implements Cloneable {
 
 	public void request() throws Exception {
 		socketClient = new Socket();
-		SocketAddress addressServer = new InetSocketAddress(IPserver, portServer);
+		SocketAddress addressServer = new InetSocketAddress(IPserver, portServer);		
 		socketClient.connect(addressServer);
+		
 		String msg = Encode.sendRequest(nameUser);
 		serverOutputStream = new ObjectOutputStream(socketClient.getOutputStream());
 		serverOutputStream.writeObject(msg);
@@ -64,8 +63,9 @@ public class Client implements Cloneable {
 		serverInputStream = new ObjectInputStream(socketClient.getInputStream());
 		msg = (String) serverInputStream.readObject();
 		serverInputStream.close();
-		//		just for test
-		System.out.println("toantoan" + msg); //test server return to user
+		
+		System.out.println("Create oupput stream");
+		
 		clientarray = Decode.getAllUser(msg);
 		new Thread(new Runnable() {
 
@@ -136,5 +136,20 @@ public class Client implements Cloneable {
 				CreatePrivateChat.updateFriendMainGui(clientarray.get(i).getName());
 			i++;
 		}
+	}
+	
+	public Socket GetSocketClient()
+	{
+		return socketClient;
+	}
+	
+	public OutputStream GetOutputStream() throws IOException
+	{
+		return serverOutputStream;
+	}
+	
+	public InputStream GetInputStream() throws IOException
+	{
+		return serverInputStream;
 	}
 }

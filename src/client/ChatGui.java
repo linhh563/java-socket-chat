@@ -460,7 +460,7 @@ public class ChatGui {
 		});
 
 		btnDisConnect = new JButton("LEAVE CHAT");
-		btnDisConnect.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		btnDisConnect.setFont(new Font("Segoe UI", Font.BOLD, 17));
 		btnDisConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int result = Tags.show(frameChatGui, "Are you sure to close chat with account: "
@@ -479,7 +479,8 @@ public class ChatGui {
 			}
 		});
 		
-		btnDisConnect.setBounds(540, 6, 113, 40);
+		btnDisConnect.setBounds(500, 6, 150, 40);
+		btnDisConnect.setBackground(Color.white);
 		frameChatGui.getContentPane().add(btnDisConnect);
 
 		progressSendFile = new JProgressBar(0, 100);

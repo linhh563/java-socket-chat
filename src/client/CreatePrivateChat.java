@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -30,29 +31,10 @@ public class CreatePrivateChat extends JFrame {
 	private static JList<String> listActive;
 	private static DefaultListModel<String> model = new DefaultListModel<>();
 	
-	public CreatePrivateChat() throws Exception
+	public CreatePrivateChat(MainGui mainGui)
 	{
-		Initialize();
-		clientNode = new Client(IPClient, portClient, nameUser, dataUser);			
-	}
-	
-	public CreatePrivateChat(String arg, int arg1, String name, String msg) throws Exception
-	{
-		IPClient = arg;
-		portClient = arg1;
-		nameUser = name;
-		dataUser = msg;
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreatePrivateChat window = new CreatePrivateChat();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		this.mainGui = mainGui;
+
 	}
 		
 	public static void updateFriendMainGui(String msg) {
@@ -66,7 +48,6 @@ public class CreatePrivateChat extends JFrame {
 	public void ShowCreatePrivateChat() throws Exception
 	{
 		Initialize();
-//		clientNode = new Client(IPClient, portClient, nameUser, dataUser);
 		frame.setVisible(true);
 	}
 	
@@ -110,56 +91,34 @@ public class CreatePrivateChat extends JFrame {
 
 			public void actionPerformed(ActionEvent arg0) {
 				String name = txtNameFriend.getText();
-				if (name.equals("") || Client.clientarray == null) {
-					Tags.show(frame, "Invaild username", false);
-					return;
-				}
 				
-				if (name.equals(nameUser)) {
-					Tags.show(frame, "This software doesn't support chat yourself function", false);
-					return;
+				if (mainGui != null)
+				{
+					mainGui.CreateChat(name);
 				}
-				
-				int size = Client.clientarray.size();
-				
-				for (int i = 0; i < size; i++) {
-					System.out.println("user in list" + Client.clientarray.get(i).getName());
-					if (name.equals(Client.clientarray.get(i).getName())) {
-						try {
-							clientNode.intialNewChat(Client.clientarray.get(i).getHost(), Client.clientarray.get(i).getPort(), name);
-							return;
-						} catch (Exception e) {
-							System.out.println("exception debug");
-							e.printStackTrace();
-						}
-					}
+				else
+				{
+					Tags.show(frame, "Can't create new private chat", false);
 				}
-				Tags.show(frame, "Friend is not found. Please wait to update your list friend", false);
 			}
 		});
 		btnChat.setBounds(20, 425, 200, 45);
+		btnChat.setBackground(Color.white);
 		frame.getContentPane().add(btnChat);
 		
 		btnExit = new JButton("Exit");
 		btnExit.setFont(new Font("Segoe UI", Font.BOLD, 17));
-//		btnExit.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				int result = Tags.show(frame, "Are you sure ?", true);
-//				if (result == 0) {
-//					try {
-////						clientNode.exit();
-//						frame.dispose();
-//					} catch (Exception e) {
-//						frame.dispose();
-//					}
-//				}
-//			}
-//		});
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+			}
+		});
 		btnExit.setBounds(20, 500, 200, 45);
+		btnExit.setBackground(Color.white);;
 		frame.getContentPane().add(btnExit);
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new CreatePrivateChat();
+//		new CreatePrivateChat();
 	}
 }

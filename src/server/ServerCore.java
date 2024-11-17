@@ -1,10 +1,16 @@
 package server;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import data.Peer;
 import tags.Decode;
@@ -59,9 +65,11 @@ public class ServerCore {
 	private boolean waitForConnection() throws Exception {
 		connection = server.accept();			
 		obInputStream = new ObjectInputStream(connection.getInputStream());		
+		
 		String msg = (String) obInputStream.readObject();						
 		ArrayList<String> getData = Decode.getUser(msg);					
-		ServerGui.updateMessage(msg);											
+		ServerGui.updateMessage(msg);	
+		
 		if (getData != null) {
 			if (!isExsistName(getData.get(0))) {						
 				saveNewPeer(getData.get(0), connection.getInetAddress()			
@@ -79,6 +87,7 @@ public class ServerCore {
 				ServerGui.decreaseNumberClient();
 			}
 		}
+		
 		return true;
 	}
 	
@@ -136,4 +145,5 @@ public class ServerCore {
 		}
 	}
 }
+
 

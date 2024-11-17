@@ -73,7 +73,7 @@ public class ServerGui {
 		frmServerMangement.getContentPane().setForeground(UIManager.getColor("RadioButtonMenuItem.acceleratorSelectionForeground"));
 		frmServerMangement.setTitle("Server Mangement");
 		frmServerMangement.setResizable(false);
-		frmServerMangement.setBounds(200, 200, 730, 686);
+		frmServerMangement.setBounds(100, 100, 760, 686);
 		frmServerMangement.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmServerMangement.getContentPane().setLayout(null);
 		frmServerMangement.setBackground(Color.ORANGE);
@@ -110,9 +110,10 @@ public class ServerGui {
 
 		JButton btnStart = new JButton("START");
 		btnStart.setBackground(UIManager.getColor("RadioButtonMenuItem.selectionBackground"));
-		btnStart.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		btnStart.setFont(new Font("Segoe UI", Font.BOLD, 17));
 		
 		btnStart.setBounds(416, 155, 143, 43);			/////// Vi tri button START
+		btnStart.setBackground(Color.white);
 		frmServerMangement.getContentPane().add(btnStart);
 		btnStart.setIcon(new javax.swing.ImageIcon(ServerGui.class.getResource("/image/start.png")));
 		
@@ -138,11 +139,11 @@ public class ServerGui {
 		txtMessage.setForeground(Color.GREEN);
 		txtMessage.setFont(new Font("Consolas", Font.PLAIN, 14));
 		txtMessage.setEditable(false);
-		txtMessage.setBounds(0, 267, 714, 358);		////// Vi tri textArea
+		txtMessage.setBounds(25, 267, 714, 358);		////// Vi tri textArea
 		frmServerMangement.getContentPane().add(txtMessage);
 
 		JButton btnStop = new JButton("STOP");
-		btnStop.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		btnStop.setFont(new Font("Segoe UI", Font.BOLD, 17));
 		btnStop.addActionListener(new ActionListener() {
 
 			@Override
@@ -160,6 +161,7 @@ public class ServerGui {
 			}
 		});
 		btnStop.setBounds(571, 155, 143, 43);						//// Vi tri button Stop
+		btnStop.setBackground(Color.white);
 		frmServerMangement.getContentPane().add(btnStop);
 		btnStop.setIcon(new javax.swing.ImageIcon(ServerGui.class.getResource("/image/stop.png")));
 		

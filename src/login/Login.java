@@ -1,5 +1,6 @@
 package login;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -57,7 +58,7 @@ public class Login {
   frameLoginForm = new JFrame();
   frameLoginForm.setTitle("Login Form");
   frameLoginForm.setResizable(false);
-  frameLoginForm.setBounds(100, 100, 517, 343);
+  frameLoginForm.setBounds(100, 100, 550, 300);
   frameLoginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   frameLoginForm.getContentPane().setLayout(null);
 
@@ -87,9 +88,9 @@ public class Login {
 
   JLabel lblUserName = new JLabel("User Name");
   lblUserName.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-  lblUserName.setBounds(10, 134, 106, 38);
+  lblUserName.setBounds(47, 134, 106, 38);
   frameLoginForm.getContentPane().add(lblUserName);
-  lblUserName.setIcon(new javax.swing.ImageIcon(Login.class.getResource("/image/user.png")));
+//  lblUserName.setIcon(new javax.swing.ImageIcon(Login.class.getResource("/image/user.png")));
 
   lblError = new JLabel("");
   lblError.setBounds(66, 287, 399, 20);
@@ -107,8 +108,8 @@ public class Login {
   frameLoginForm.getContentPane().add(txtUsername);
 
   btnLogin = new JButton("Login");
-  btnLogin.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-  btnLogin.setIcon(new javax.swing.ImageIcon(Login.class.getResource("/image/login.png")));
+  btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 17));
+  btnLogin.setBackground(Color.white);
   btnLogin.addActionListener(new ActionListener() {
 
    public void actionPerformed(ActionEvent arg0) {
@@ -156,7 +157,7 @@ public class Login {
    }
   });
   
-  btnLogin.setBounds(325, 217, 169, 63);
+  btnLogin.setBounds(395, 190, 100, 50);
   frameLoginForm.getContentPane().add(btnLogin);
   lblError.setVisible(false);
 
